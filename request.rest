@@ -1,0 +1,13 @@
+GET http://localhost:3005/products HTTP/1.1
+
+###
+
+POST  http://localhost:3005/products HTTP/1.1
+Content-Type: application/json
+
+
+{
+    "product_code": "HamVegg",
+    "product_name": "Hamburguesa vegana",
+    "price": "400"
+}

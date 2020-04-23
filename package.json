@@ -1,0 +1,23 @@
+{
+  "name": "delilah-rest",
+  "version": "1.0.0",
+  "description": "Restaurant API to manage orders, customers and products efficiently.",
+  "main": "app.js",
+  "scripts": {
+    "devStart": "nodemon ./server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Karen Echavarria",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.5"
+  }
+}
