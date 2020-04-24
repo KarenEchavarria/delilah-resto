@@ -8,7 +8,8 @@ CREATE TABLE delilah_test1.Clients(
     email VARCHAR(250) NOT NULL,
     phone INT UNSIGNED NOT NULL,
     address VARCHAR(250) NOT NULL,
-    password VARCHAR(250) NOT NULL
+    password VARCHAR(250) NOT NULL,
+    admin BOOLEAN NOT NULL,
 ); 
 
 CREATE TABLE delilah_test1.Products(

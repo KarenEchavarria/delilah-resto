@@ -1,8 +1,8 @@
-GET http://localhost:3005/products HTTP/1.1
+GET http://localhost:3005/products
 
 ###
 
-POST  http://localhost:3005/products HTTP/1.1
+POST  http://localhost:3005/products 
 Content-Type: application/json
 
 
@@ -29,4 +29,3 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3005/products/HamVeggggg
-
