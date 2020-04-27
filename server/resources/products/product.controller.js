@@ -21,7 +21,7 @@ async function addNewProduct(req, res, err) {
     );
 
     res.json(
-      `product: code: ${product_code}, name: ${product_name}, price: ${price} was added succesfully`
+      `product: code: ${product_code}, name: ${product_name}, price: ${price} was added successfully`
     );
   } catch (err) {
     console.log(err);
@@ -39,13 +39,13 @@ async function getProduct(req, res, err) {
         replacements: { code: product_code },
       }
     );
-    const productfound = response.length
+    const productFound = response.length
         ? response
-        : "Can´t find the product";
-    res.json(productfound);
+        : "Cannot find the product";
+    res.json(productFound);
   } catch (err) {
     console.log(err);
-    res.json("An error ocurred");
+    res.json("An error has ocurred");
   }
 }
 
@@ -63,7 +63,7 @@ async function modifyProduct(req, res, err) {
   } catch (err) {
     console.log(err);
     res.status(500);
-    res.json("An error ocurred");
+    res.json("An error has ocurred");
   }
 }
 

@@ -1,0 +1,30 @@
+GET http://localhost:3005/orders
+
+###
+
+POST  http://localhost:3005/orders
+Content-Type: application/json
+
+{
+    "order_time": "09:45:30", 
+    "order_date": "2020-04-27",
+    # "products_ordered": [{"quantity": 1, "product_code": "HamClas", "price": 300}] , 
+    "total": 300,
+    "payment": "efectivo", 
+    "user_name": "lali95"
+}
+
+###
+GET http://localhost:3005/orders/4
+
+###
+
+PUT http://localhost:3005/orders/4
+Content-Type: application/json
+
+{
+    "payment": "crédito"
+}
+
+###
+DELETE http://localhost:3005/orders/4

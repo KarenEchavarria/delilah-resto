@@ -1,0 +1,34 @@
+GET http://localhost:3005/users
+
+###
+
+POST http://localhost:3005/users
+Content-Type: application/json
+
+{
+    "user_name": "admin2", 
+    "name": "Clara Rojas",
+    "email": "admin2@delilahresto.com",
+    "phone": 1156734356,
+    "address": "fake street 321",
+    "password": "ajlkjasdnma",
+    "role": 1
+}
+
+###
+
+GET http://localhost:3005/users/admin2
+
+###
+
+PUT http://localhost:3005/users/admin2
+Content-Type: application/json
+
+{
+    "phone": 1156734355,
+    "address": "fake Street 321"
+}
+
+###
+
+DELETE http://localhost:3005/users/admin2

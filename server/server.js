@@ -4,6 +4,7 @@ const productRouter = require('./resources/products/product.router');
 const userRouter = require('./resources/users/user.router');
 const registerNewUserRouter = require('./util/register');
 const loginRouter = require('./util/login');
+const orderRouter = require('./resources/orders/order.router');
 const { createToken, authenticateToken } = require('./util/authentication');
 
 app.use(bodyParser.json());
@@ -11,10 +12,12 @@ app.use(bodyParser.json());
 app.use('/register', registerNewUserRouter);
 app.use('/login', loginRouter, createToken);
 
-app.use(authenticateToken);
+// app.use(authenticateToken);
 
 app.use('/products', productRouter);
 app.use('/users', userRouter);
+app.use('/orders', orderRouter);
+
 
 
 

@@ -3,12 +3,12 @@ const registerNewUserRouter = express.Router();
 const bcrypt = require("bcrypt");
 const { dbConnection } = require("./database");
 
-registerNewUserRouter.post("/", async (req, res) => {
-  const { user_name, name, email, phone, address, password, admin } = req.body;
+async function registerNewUser(req, res){
+  const { user_name, name, email, phone, address, password, role } = req.body;
   const hashedPassword = await bcrypt.hash(password, 2);
   try {
     await dbConnection.query(
-        "INSERT INTO users VALUES(:user_name, :name, :email, :phone, :address, :password, :admin)",
+        "INSERT INTO users VALUES(:user_name, :name, :email, :phone, :address, :password, :role)",
         {
           replacements: {
             user_name: user_name,
@@ -17,15 +17,17 @@ registerNewUserRouter.post("/", async (req, res) => {
             phone: phone,
             address: address,
             password: hashedPassword,
-            admin: admin,
+            role: role,
           },
         }
       );
-      res.json('The user was created succesfully');
+      res.json('The user was created successfully');
   } catch (err) {
     console.log(err);
     res.json("Failure creating the user");
   }
-});
+}
 
-module.exports = registerNewUserRouter;
+registerNewUserRouter.post("/", registerNewUser);
+
+module.exports = registerNewUserRouter, registerNewUser;
