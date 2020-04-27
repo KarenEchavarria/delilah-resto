@@ -39,11 +39,9 @@ async function getProduct(req, res, err) {
         replacements: { code: product_code },
       }
     );
-    const emptyArray = [];
-    const productfound =
-      response.length === emptyArray.length
-        ? "Can´t find the product"
-        : response;
+    const productfound = response.length
+        ? response
+        : "Can´t find the product";
     res.json(productfound);
   } catch (err) {
     console.log(err);

@@ -1,0 +1,71 @@
+# register general request
+POST http://localhost:3005/register
+Content-Type: application/json
+
+{
+    "user_name": "lali95", 
+    "name": "Laura Lopez",
+    "email": "lali@gmail.com",
+    "phone": 1174378291,
+    "address": "calle falsa 123",
+    "password": "constraseña",
+    "role": 2
+}
+
+###
+
+#register admin role
+
+POST http://localhost:3005/register
+Content-Type: application/json
+
+{
+    "user_name": "admin1", 
+    "name": "Sofía Sanchez",
+    "email": "admin@delilahresto.com",
+    "phone": 1156785432,
+    "address": "calle falsa 321",
+    "password": "admin",
+    "role": 1
+}
+
+###
+
+#succesful login request
+
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "lali95", 
+    "password": "constraseña"
+}
+
+###
+
+GET http://localhost:3005/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJsYWxpOTUiLCJpYXQiOjE1ODc5MzQxMTR9.P_fWlu3-MeKSeVrmFB0bdoGL3eaqcId05AaeH7D0KU
+
+###
+
+#inexistent user login request
+
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "lali950", 
+    "password": "constraseña"
+}
+
+###
+
+#wrong password login request
+
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "lali95", 
+    "password": "constraseñ"
+}

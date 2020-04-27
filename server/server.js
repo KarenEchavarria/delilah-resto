@@ -1,11 +1,21 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
 const productRouter = require('./resources/products/product.router');
-const { error400, error401, error404, error500 } = require("./util/errors");
-
+const userRouter = require('./resources/users/user.router');
+const registerNewUserRouter = require('./util/register');
+const loginRouter = require('./util/login');
+const { createToken, authenticateToken } = require('./util/authentication');
 
 app.use(bodyParser.json());
+
+app.use('/register', registerNewUserRouter);
+app.use('/login', loginRouter, createToken);
+
+app.use(authenticateToken);
+
 app.use('/products', productRouter);
+app.use('/users', userRouter);
+
 
 
 const startServer = () => {
