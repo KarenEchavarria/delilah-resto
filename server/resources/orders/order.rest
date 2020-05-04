@@ -6,12 +6,10 @@ POST  http://localhost:3005/orders
 Content-Type: application/json
 
 {
-    "order_time": "09:45:30", 
-    "order_date": "2020-04-27",
-    # "products_ordered": [{"quantity": 1, "product_code": "HamClas", "price": 300}] , 
-    "total": 300,
-    "payment": "efectivo", 
-    "user_name": "lali95"
+    "products_ordered": [{"quantity": 2,
+    "product_id": 3}, {"quantity": 1,
+    "product_id": 1}], 
+    "payment": "efectivo" 
 }
 
 ###
@@ -19,12 +17,20 @@ GET http://localhost:3005/orders/4
 
 ###
 
-PUT http://localhost:3005/orders/4
+POST  http://localhost:3005/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJyb2xlIjoiY2xpZW50In0.g38kQGSW2xnfU6Oz4HfHyTajqlkPUoHZOOtgfVYVqPY
 Content-Type: application/json
 
 {
-    "payment": "crédito"
+    "payment": "efectivo",
+    "products_ordered": [
+        {"quantity": 2,
+        "product_id": 3}, 
+        {"quantity": 1,
+        "product_id": 1}
+        ] 
 }
+
 
 ###
 DELETE http://localhost:3005/orders/4

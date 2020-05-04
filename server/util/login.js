@@ -7,16 +7,18 @@ loginRouter.post("/", async (req, res, next) => {
   const { user_name, password } = req.body;
 
   try {
-    const [user]
-      = await dbConnection.query(
-      "SELECT user_name, password FROM users WHERE user_name = :user",
+    const [
+      userArray,
+    ] = await dbConnection.query(
+      "SELECT user_id, password, role FROM users WHERE user_name = :user",
       { replacements: { user: user_name } }
     );
-    
-    if (!user.length) {
+
+    if (!userArray.length) {
       return res.status(404).json("Cannot find user");
-    } 
-    else if (await bcrypt.compare(password, user[0].password)) {
+    } else if (await bcrypt.compare(password, userArray[0].password)) {
+      const [user] = userArray;
+      req.user = { user_id: user.user_id, role: user.role };
       next();
     } else {
       res.json("Not Allowed");

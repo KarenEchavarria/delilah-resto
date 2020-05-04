@@ -7,7 +7,7 @@ async function getAllProducts(req, res) {
     res.status(200);
   } catch (err) {
     console.log(err);
-    res.status(500).send('An error has ocurred')
+    res.status(500).send("An error has ocurred");
   }
 }
 
@@ -25,60 +25,53 @@ async function addNewProduct(req, res, err) {
     );
   } catch (err) {
     console.log(err);
-    res.json("Failure creating new product");
+    res.status(500).json("Failure creating new product");
   }
 }
 
 async function getProduct(req, res, err) {
-  const { product_code } = req.params;
+  const { product_id } = req.params;
 
   try {
-    const [response] = await dbConnection.query(
-      "SELECT * FROM products WHERE product_code = :code",
-      {
-        replacements: { code: product_code },
-      }
-    );
-    const productFound = response.length
-        ? response
-        : "Cannot find the product";
+    const [response] = await dbConnection.query("SELECT * FROM products WHERE product_id = :code", {
+      replacements: { code: product_id },
+    });
+    const productFound = response.length ? response : "Cannot find the product";
     res.json(productFound);
   } catch (err) {
     console.log(err);
-    res.json("An error has ocurred");
+    res.status(500).json("An error has ocurred");
   }
 }
 
 async function modifyProduct(req, res, err) {
   try {
-    const { product_code } = req.params;
+    const { product_id } = req.params;
     const fieldsToUpdateArray = Object.entries(req.body);
 
     for (let [key, value] of fieldsToUpdateArray) {
       await dbConnection.query(
-      `UPDATE products SET ${key} = '${value}' WHERE product_code = '${product_code}'`
+        `UPDATE products SET ${key} = '${value}' WHERE product_id = '${product_id}'`
       );
     }
-    res.status(200).json('Product modified!');
+    res.status(200).json("Product modified!");
   } catch (err) {
     console.log(err);
-    res.status(500);
-    res.json("An error has ocurred");
+    res.status(500).json("An error has ocurred");
   }
 }
 
-async function deleteProduct(req, res){
-  const { product_code } = req.params;
-  try{
-    await dbConnection.query('DELETE FROM products WHERE product_code = :code', 
-    { replacements: {code: product_code}}
-    )
-    res.json('Product deleted');
+async function deleteProduct(req, res) {
+  const { product_id } = req.params;
+  try {
+    await dbConnection.query("DELETE FROM products WHERE product_id = :id", {
+      replacements: { id: product_id },
+    });
+    res.json("Product deleted");
   } catch (err) {
     console.log(err);
-    res.json('Can´t delete product');
+    res.json("Can´t delete product");
   }
-
 }
 
 module.exports = {
@@ -86,5 +79,5 @@ module.exports = {
   addNewProduct,
   getProduct,
   modifyProduct,
-  deleteProduct
+  deleteProduct,
 };

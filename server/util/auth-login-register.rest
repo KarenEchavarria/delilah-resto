@@ -3,13 +3,13 @@ POST http://localhost:3005/register
 Content-Type: application/json
 
 {
-    "user_name": "lali95", 
-    "name": "Laura Lopez",
+    "user_name": "ana123", 
+    "name": "Ana Mora",
     "email": "lali@gmail.com",
     "phone": 1174378291,
     "address": "calle falsa 123",
-    "password": "constraseña",
-    "role": 2
+    "password": "constraseñ",
+    "role": "client"
 }
 
 ###
@@ -20,31 +20,50 @@ POST http://localhost:3005/register
 Content-Type: application/json
 
 {
-    "user_name": "admin1", 
+    "user_name": "admin3", 
     "name": "Sofía Sanchez",
     "email": "admin@delilahresto.com",
     "phone": 1156785432,
     "address": "calle falsa 321",
     "password": "admin",
-    "role": 1
+    "role": "admin"
 }
 
 ###
 
-#succesful login request
+#succesful login admin request
 
 POST http://localhost:3005/login
 Content-Type: application/json
 
 {
-    "user_name": "lali95", 
-    "password": "constraseña"
+    "user_name": "admin3", 
+    "password": "admin"
 }
 
 ###
 
-GET http://localhost:3005/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJsYWxpOTUiLCJpYXQiOjE1ODc5MzQxMTR9.P_fWlu3-MeKSeVrmFB0bdoGL3eaqcId05AaeH7D0KU
+#succesful login client request
+
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "lali98", 
+    "password": "constraseñ"
+}
+
+###
+# authentication admin
+
+GET http://localhost:3005/products/HamClas
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbjMiLCJwYXNzd29yZCI6IiQyYiQwNCQyaFpGRk1LRVhzenozRnd2OVJiNWouM21KcWJVSmtYUm95eUlueEdoYWxQZmpxbDNhR0NERyIsInJvbGUiOiJhZG1pbiJ9.aHb3b1MGtecTp6Ynhj0MaUIsRfmi_mPUR99ZwB_W3q0
+
+###
+# authentication client
+
+GET http://localhost:3005/users/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJyb2xlIjoiY2xpZW50In0.g38kQGSW2xnfU6Oz4HfHyTajqlkPUoHZOOtgfVYVqPY
 
 ###
 

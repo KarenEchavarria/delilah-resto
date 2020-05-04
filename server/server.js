@@ -1,35 +1,34 @@
-const app = require('express')();
-const bodyParser = require('body-parser');
-const productRouter = require('./resources/products/product.router');
-const userRouter = require('./resources/users/user.router');
-const registerNewUserRouter = require('./util/register');
-const loginRouter = require('./util/login');
-const orderRouter = require('./resources/orders/order.router');
-const { createToken, authenticateToken } = require('./util/authentication');
+const app = require("express")();
+const bodyParser = require("body-parser");
+const productRouter = require("./resources/products/product.router");
+const userRouter = require("./resources/users/user.router");
+const registerNewUserRouter = require("./util/register");
+const loginRouter = require("./util/login");
+const orderRouter = require("./resources/orders/order.router");
+const { createToken, authenticateToken, checkPermissions } = require("./util/authentication");
+const { checkAuthorization } = require("./util/middlewares");
 
 app.use(bodyParser.json());
 
-app.use('/register', registerNewUserRouter);
-app.use('/login', loginRouter, createToken);
+app.use("/register", registerNewUserRouter);
+app.use("/login", loginRouter, createToken);
 
-// app.use(authenticateToken);
+app.use(authenticateToken);
+app.use(checkPermissions);
+// app.use(checkAuthorization);
 
-app.use('/products', productRouter);
-app.use('/users', userRouter);
-app.use('/orders', orderRouter);
-
-
-
+app.use("/products", productRouter);
+app.use("/users", userRouter);
+app.use("/orders", orderRouter);
 
 const startServer = () => {
-    try {
-        app.listen(3005, () => {
-            console.log('Server online in port 3005')
-        })
-    } catch (err) {
-        console.error(err);
-    }
+  try {
+    app.listen(3005, () => {
+      console.log("Server online in port 3005");
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 module.exports = startServer;
-
