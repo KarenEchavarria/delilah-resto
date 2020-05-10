@@ -1,6 +1,10 @@
 const Sequelize = require("sequelize");
 
-const dbConnection = new Sequelize("mysql://root@localhost:3306/delilah_test1");
+const dbConnection = new Sequelize("20NPxAlTA5", "20NPxAlTA5", "LayNa5PQab", {
+  dialect: "mysql",
+  host: "remotemysql.com",
+  port: "3306",
+});
 
 async function testingConnection() {
   try {

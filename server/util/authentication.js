@@ -32,18 +32,23 @@ async function checkPermissions(req, res, next) {
     const path = req.path.split("/")[1];
     const param = req.path.split("/")[2];
 
-    if (path === "orders" && req.method == "POST") return next();
-
-    if (path === "orders" && req.method != "POST") {
-      const orderUserId = dbConnection.query(
-        "SELECT user_id FROM orders WHERE order_id = :order_id",
-        { replacements: { order_id: param } }
-      );
-
-      isTheirOwnResource = orderUserId === req.user.user_id;
-    }
+    if (path === "orders" && req.method === "POST") return next();
 
     isTheirOwnResource = req.user.user_id == param;
+
+    if (path === "products" && req.method === "PUT") isTheirOwnResource = false;
+
+    if (path === "orders" && req.method !== "POST" && param) {
+      const [orderUserId] = (
+        await dbConnection.query("SELECT user_id FROM orders WHERE order_id = :order_id", {
+          replacements: { order_id: param },
+        })
+      ).flat();
+
+      isTheirOwnResource = orderUserId.user_id == req.user.user_id;
+    }
+
+    if (path === "orders" && req.method === "PUT") isTheirOwnResource = false;
 
     const [permissions] = (
       await dbConnection.query(

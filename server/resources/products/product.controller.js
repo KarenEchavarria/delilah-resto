@@ -36,8 +36,7 @@ async function getProduct(req, res, err) {
     const [response] = await dbConnection.query("SELECT * FROM products WHERE product_id = :code", {
       replacements: { code: product_id },
     });
-    const productFound = response.length ? response : "Cannot find the product";
-    res.json(productFound);
+    response.length === 0 ? res.json("Cannot find the product") : res.json(response[0]);
   } catch (err) {
     console.log(err);
     res.status(500).json("An error has ocurred");

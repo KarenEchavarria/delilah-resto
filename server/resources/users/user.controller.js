@@ -13,9 +13,12 @@ async function getAllUsers(req, res) {
 
 async function getUser(req, res, err) {
   try {
-    const [response] = await dbConnection.query("SELECT * FROM users WHERE user_id = :user", {
-      replacements: { user: req.user.user_id },
-    });
+    const [response] = await dbConnection.query(
+      "SELECT user_id, user_name, name, email, phone, address, role, user_id FROM users WHERE user_id = :user",
+      {
+        replacements: { user: req.params.user_id },
+      }
+    );
     const userFound = response.length ? response : "Cannot find the user";
     res.json(userFound);
   } catch (err) {
@@ -30,7 +33,7 @@ async function modifyUser(req, res, err) {
 
     for (let [key, value] of fieldsToUpdateArray) {
       await dbConnection.query(
-        `UPDATE users SET ${key} = '${value}' WHERE user_id = '${req.user.user_id}'`
+        `UPDATE users SET ${key} = '${value}' WHERE user_id = '${req.params.user_id}'`
       );
     }
     res.status(200).json("User modified!");
@@ -44,9 +47,9 @@ async function modifyUser(req, res, err) {
 async function deleteUser(req, res) {
   try {
     await dbConnection.query("DELETE FROM users WHERE user_id = :code", {
-      replacements: { code: req.user.user_id },
+      replacements: { code: req.params.user_id },
     });
-    res.json("Product deleted");
+    res.json("User deleted");
   } catch (err) {
     console.log(err);
     res.status(500).json("An error has ocurred");

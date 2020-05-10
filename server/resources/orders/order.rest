@@ -13,7 +13,17 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3005/orders/4
+GET http://localhost:3005/orders/49
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbjMiLCJwYXNzd29yZCI6IiQyYiQwNCQyaFpGRk1LRVhzenozRnd2OVJiNWouM21KcWJVSmtYUm95eUlueEdoYWxQZmpxbDNhR0NERyIsInJvbGUiOiJhZG1pbiJ9.aHb3b1MGtecTp6Ynhj0MaUIsRfmi_mPUR99ZwB_W3q0
+
+###
+PUT http://localhost:3005/orders/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJyb2xlIjoiY2xpZW50In0.g38kQGSW2xnfU6Oz4HfHyTajqlkPUoHZOOtgfVYVqPY
+Content-Type: application/json
+
+{
+    "order_status": "confirmado"
+}
 
 ###
 

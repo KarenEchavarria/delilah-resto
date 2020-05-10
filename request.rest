@@ -1,32 +1,467 @@
-GET http://localhost:3005/products HTTP/1.1
+@clientToken = eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiY2xpZW50In0.Lr9cnMouR2fEXlgLBo5J525yNN24vpOGdM1xhbtD-D0
+@adminToken = eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiYWRtaW4ifQ.R5NnBE1R1slS4BPI__Cz2cWLpIDMmqWO0xZ1-DJQvkQ
 
-###
+# ----------Register request---------
 
-POST  http://localhost:3005/products HTTP/1.1
+# ---Register Client
+POST http://localhost:3005/register
 Content-Type: application/json
 
+{
+    "user_name": "ana123", 
+    "name": "Ana Mora",
+    "email": "lali@gmail.com",
+    "phone": 1174378291,
+    "address": "calle falsa 123",
+    "password": "constraseñ",
+    "role": "client"
+}
+
+### ---Register Admin
+POST http://localhost:3005/register
+Content-Type: application/json
 
 {
-    "product_code": "HamVegglggg",
+    "user_name": "admin3", 
+    "name": "Sofía Sanchez",
+    "email": "admin@delilahresto.com",
+    "phone": 1156785432,
+    "address": "calle falsa 321",
+    "password": "admin",
+    "role": "admin"
+}
+
+
+
+# ----------Login request---------
+
+### ---No autenthicated
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "fake", 
+    "password": "fake"
+}
+
+### ---Client role
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "ana123", 
+    "password": "constraseñ"
+}
+
+### ---Admin role
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "admin3", 
+    "password": "admin"
+}
+
+
+# ----------Products request---------
+
+# -----Create new product-----
+
+### ---No autenthicated
+POST  http://localhost:3005/products 
+Content-Type: application/json
+
+{
+    "product_code": "HamVegg",
     "product_name": "Hamburguesa vegana",
     "price": "400"
 }
 
-###
-
-GET http://localhost:3005/products/HamVeggg
-
-###
-
-PUT http://localhost:3005/products/HamVeggg
+### ---Client role
+POST  http://localhost:3005/products 
+Authorization: Bearer {{clientToken}}
 Content-Type: application/json
 
 {
-    "product_name": "Hamburguesa vegane",
-    "price": "450"    
+    "product_code": "HamVegg",
+    "product_name": "Hamburguesa vegana",
+    "price": "400"
 }
 
-###
+### ---Admin role
+POST  http://localhost:3005/products 
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
 
-DELETE http://localhost:3005/products/HamVeggggg
+{
+    "product_code": "HamClas",
+    "product_name": "Hamburguesa clásica",
+    "price": "250"
+}
 
+
+# -----See all products-----
+
+###---No autenthicated
+GET http://localhost:3005/products
+
+
+###---Client role
+GET http://localhost:3005/products
+Authorization: Bearer {{clientToken}}
+
+###---Admin role
+GET http://localhost:3005/products
+Authorization: Bearer {{adminToken}}
+
+
+#-----See one product-----
+
+### ---No autenthicated
+GET http://localhost:3005/products/1
+
+### ---Client role
+GET http://localhost:3005/products/1
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/products/1
+Authorization: Bearer {{adminToken}}
+
+
+# -----Modify one product-----
+
+### ---No autenthicated
+POST  http://localhost:3005/products/1
+Content-Type: application/json
+
+{
+    "product_name": "Hamburguesa Vegana",
+    "price": "450"
+}
+
+### ---Client role
+PUT http://localhost:3005/products/1 
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "product_name": "Hamburguesa Vegana",
+    "price": "450"
+}
+
+### ---Admin role
+PUT  http://localhost:3005/products/2
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "product_code": "HamClas",
+    "product_name": "Hamburguesa Clásica",
+    "price": "300"
+}
+
+# -----Delete one product-----
+
+### ---No autenthicated
+DELETE  http://localhost:3005/products/2
+
+### ---Client role
+DELETE   http://localhost:3005/products/2
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+DELETE  http://localhost:3005/products/2
+Authorization: Bearer {{adminToken}}
+
+
+# ----------Users request---------
+
+# -----See all users-----
+###---No autenthicated
+GET http://localhost:3005/users
+
+
+###---Client role
+GET http://localhost:3005/users
+Authorization: Bearer {{clientToken}}
+
+###---Admin role
+GET http://localhost:3005/users
+Authorization: Bearer {{adminToken}}
+
+
+# -----See one user-----
+
+###---No autenthicated
+GET http://localhost:3005/users/2
+
+
+###---Client role
+GET http://localhost:3005/users/2
+Authorization: Bearer {{clientToken}}
+
+###---Admin role
+GET http://localhost:3005/users/1
+Authorization: Bearer {{adminToken}}
+
+
+#-----See own user-----
+
+###---No autenthicated
+GET http://localhost:3005/users/1
+
+
+###---Client role
+GET http://localhost:3005/users/1
+Authorization: Bearer {{clientToken}}
+
+###---Admin role
+GET http://localhost:3005/users/2
+Authorization: Bearer {{adminToken}}
+
+# -----Create new user-----
+
+###---No autenthicated
+POST http://localhost:3005/users
+Content-Type: application/json
+
+{
+    "user_name": "admin2", 
+    "name": "Clara Rojas",
+    "email": "admin2@delilahresto.com",
+    "phone": 1156734356,
+    "address": "fake street 321",
+    "password": "ajlkjasdnma",
+    "role": "client"
+}
+
+### ---Client role
+POST http://localhost:3005/users
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "user_name": "admin2", 
+    "name": "Clara Rojas",
+    "email": "admin2@delilahresto.com",
+    "phone": 1156734356,
+    "address": "fake street 321",
+    "password": "ajlkjasdnma",
+    "role": "client"
+}
+
+### ---Admin role
+POST http://localhost:3005/users
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "user_name": "admin2", 
+    "name": "Clara Rojas",
+    "email": "admin2@delilahresto.com",
+    "phone": 1156734356,
+    "address": "fake street 321",
+    "password": "ajlkjasdnma",
+    "role": "client"
+}
+
+# -----Modify one user-----
+
+###---No autenthicated
+PUT http://localhost:3005/users/1
+Content-Type: application/json
+
+{
+    "phone": 1156734350
+}
+
+###---Client role
+PUT http://localhost:3005/users/2
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "phone": 1156734350
+}
+
+### ---Admin role
+PUT http://localhost:3005/users/1
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "phone": 1156734350
+}
+
+### -----Modify own user-----
+
+PUT http://localhost:3005/users/1
+Content-Type: application/json
+
+{
+    "email": "martha@gmail.com"
+}
+
+### ---Client role
+PUT http://localhost:3005/users/1
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "email": "martha@gmail.com"
+}
+
+### ---Admin role
+PUT http://localhost:3005/users/2
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "email": "martha@gmail.com"
+}
+
+# -----Delete one user-----
+
+### ---No autenthicated
+DELETE http://localhost:3005/users/1
+
+### ---Client role
+DELETE http://localhost:3005/users/2
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+DELETE http://localhost:3005/users/2
+Authorization: Bearer {{adminToken}}
+
+
+# -----Delete own user-----
+
+### ---No autenthicated
+DELETE  http://localhost:3005/users/1
+
+### ---Client role
+DELETE http://localhost:3005/users/1
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+DELETE http://localhost:3005/users/2
+Authorization: Bearer {{adminToken}}
+
+
+
+# ----------Orders request---------
+
+# -----Create new order-----
+
+### ---No autenthicated
+POST  http://localhost:3005/orders
+Content-Type: application/json
+
+{
+    "payment": "efectivo",
+    "products_ordered": [
+        {"quantity": 2,
+        "product_id": 2}, 
+        {"quantity": 1,
+        "product_id": 1}
+        ] 
+}
+
+### ---Client role
+POST  http://localhost:3005/orders
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "payment": "efectivo",
+    "products_ordered": [
+        {"quantity": 2,
+        "product_id": 2}, 
+        {"quantity": 1,
+        "product_id": 1}
+        ] 
+}
+
+### ---Admin role
+POST  http://localhost:3005/orders
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "payment": "efectivo",
+    "products_ordered": [
+        {"quantity": 2,
+        "product_id": 2}, 
+        {"quantity": 1,
+        "product_id": 1}
+        ] 
+}
+
+# -----See all orders-----
+
+###---No autenthicated
+GET http://localhost:3005/orders
+
+### ---Client role
+GET http://localhost:3005/orders
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/orders
+Authorization: Bearer {{adminToken}}
+
+# -----See one order-----
+
+### ---No autenthicated
+GET http://localhost:3005/orders/2
+
+### ---Client role
+GET http://localhost:3005/orders/2
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/orders/1
+Authorization: Bearer {{adminToken}}
+
+# -----See own order-----
+
+### ---No autenthicated
+GET http://localhost:3005/orders/2
+
+### ---Client role
+GET http://localhost:3005/orders/1
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/orders/2
+Authorization: Bearer {{adminToken}}
+
+
+# -----Modify status of one order-----
+
+### ---No autenthicated
+PUT  http://localhost:3005/orders/1
+Content-Type: application/json
+
+{
+    "order_status": "confirmado"
+}
+
+### ---Client role
+PUT  http://localhost:3005/orders/1
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "order_status": "confirmado"
+}
+
+### ---Admin role
+PUT  http://localhost:3005/orders/1
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "order_status": "confirmado"
+}
