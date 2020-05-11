@@ -12,17 +12,15 @@ async function getAllProducts(req, res) {
 }
 
 async function addNewProduct(req, res, err) {
-  const { product_code, product_name, price } = req.body;
-
   try {
-    const response = await dbConnection.query(
-      "INSERT INTO products (product_code, product_name, price) VALUES (:code, :name, :price)",
-      { replacements: { code: product_code, name: product_name, price: price } }
-    );
+    for (const { product_code, product_name, price } of req.body) {
+      await dbConnection.query(
+        "INSERT INTO products (product_code, product_name, price) VALUES (:code, :name, :price)",
+        { replacements: { code: product_code, name: product_name, price: price } }
+      );
+    }
 
-    res.json(
-      `product: code: ${product_code}, name: ${product_name}, price: ${price} was added successfully`
-    );
+    res.json(`product was added successfully`);
   } catch (err) {
     console.log(err);
     res.status(500).json("Failure creating new product");

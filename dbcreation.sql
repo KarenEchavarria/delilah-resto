@@ -1,7 +1,7 @@
 
 CREATE DATABASE IF NOT EXISTS 20NPxAlTA5; 
 
-CREATE TABLE users(
+CREATE TABLE IF NOT EXISTS users(
     user_id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,
     user_name VARCHAR(30) NOT NULL,
     NAME VARCHAR(250) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE users(
     UNIQUE(user_name)
 ); 
 
-CREATE TABLE products(
+CREATE TABLE IF NOT EXISTS products(
     product_id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,
     product_code VARCHAR(250) NOT NULL,
     product_name VARCHAR(250) NOT NULL,
@@ -21,18 +21,18 @@ CREATE TABLE products(
     UNIQUE(product_code)
 ); 
 
-CREATE TABLE roles(
+CREATE TABLE IF NOT EXISTS roles(
     role ENUM('admin','client') NOT NULL,
     resources_id VARCHAR(30) NOT NULL,
-    Create_One BOOLEAN NOT NULL,
-    Read_One BOOLEAN NOT NULL,
-    Write_One BOOLEAN NOT NULL,
-    Delete_One BOOLEAN NOT NULL,
+    create_one BOOLEAN NOT NULL,
+    read_one BOOLEAN NOT NULL,
+    write_one BOOLEAN NOT NULL,
+    delete_one BOOLEAN NOT NULL,
     PRIMARY KEY(role, resources_id)
 ); 
 
 
-CREATE TABLE orders(
+CREATE TABLE IF NOT EXISTS orders(
     order_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     order_status ENUM (
@@ -46,10 +46,10 @@ CREATE TABLE orders(
          NOT NULL,
         total FLOAT NOT NULL,
         payment ENUM ('efectivo', 'tarjeta') NOT NULL,
-        user_id INT UNSIGNED ZEROFILL NOT NULL,
+        user_id INT UNSIGNED ZEROFILL NOT NULL
 );
 
-CREATE TABLE ordered_products(
+CREATE TABLE IF NOT EXISTS ordered_products(
     ordered_products_id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,
     order_id INT NOT NULL,
     quantity INT UNSIGNED ZEROFILL NOT NULL,

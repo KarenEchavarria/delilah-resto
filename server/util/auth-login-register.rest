@@ -1,4 +1,6 @@
-# register general request
+# ----------Register request---------
+
+### ---Register Client
 POST http://localhost:3005/register
 Content-Type: application/json
 
@@ -12,10 +14,7 @@ Content-Type: application/json
     "role": "client"
 }
 
-###
-
-#register admin role
-
+### ---Register Admin
 POST http://localhost:3005/register
 Content-Type: application/json
 
@@ -29,62 +28,33 @@ Content-Type: application/json
     "role": "admin"
 }
 
-###
 
-#succesful login admin request
 
+# ----------Login request---------
+
+### ---No autenthicated
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "fake", 
+    "password": "fake"
+}
+
+### ---Client role
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "ana123", 
+    "password": "constraseñ"
+}
+
+### ---Admin role
 POST http://localhost:3005/login
 Content-Type: application/json
 
 {
     "user_name": "admin3", 
     "password": "admin"
-}
-
-###
-
-#succesful login client request
-
-POST http://localhost:3005/login
-Content-Type: application/json
-
-{
-    "user_name": "lali98", 
-    "password": "constraseñ"
-}
-
-###
-# authentication admin
-
-GET http://localhost:3005/products/HamClas
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbjMiLCJwYXNzd29yZCI6IiQyYiQwNCQyaFpGRk1LRVhzenozRnd2OVJiNWouM21KcWJVSmtYUm95eUlueEdoYWxQZmpxbDNhR0NERyIsInJvbGUiOiJhZG1pbiJ9.aHb3b1MGtecTp6Ynhj0MaUIsRfmi_mPUR99ZwB_W3q0
-
-###
-# authentication client
-
-GET http://localhost:3005/users/5
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJyb2xlIjoiY2xpZW50In0.g38kQGSW2xnfU6Oz4HfHyTajqlkPUoHZOOtgfVYVqPY
-
-###
-
-#inexistent user login request
-
-POST http://localhost:3005/login
-Content-Type: application/json
-
-{
-    "user_name": "lali950", 
-    "password": "constraseña"
-}
-
-###
-
-#wrong password login request
-
-POST http://localhost:3005/login
-Content-Type: application/json
-
-{
-    "user_name": "lali95", 
-    "password": "constraseñ"
 }

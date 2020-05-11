@@ -5,9 +5,12 @@ const userRouter = require("./resources/users/user.router");
 const registerNewUserRouter = require("./util/register");
 const loginRouter = require("./util/login");
 const orderRouter = require("./resources/orders/order.router");
+const { createDB, createTables, createPermissions } = require("./util/database");
 const { createToken, authenticateToken, checkPermissions } = require("./util/authentication");
 
 app.use(bodyParser.json());
+
+app.post("/createdb", createTables, createPermissions);
 
 app.use("/register", registerNewUserRouter);
 app.use("/login", loginRouter, createToken);

@@ -1,46 +1,140 @@
-GET http://localhost:3005/orders
+# ----------Orders request---------
 
-###
+# ----------Users request---------
 
-POST  http://localhost:3005/orders
+### ---Client loggin
+POST http://localhost:3005/login
 Content-Type: application/json
 
 {
-    "products_ordered": [{"quantity": 2,
-    "product_id": 3}, {"quantity": 1,
-    "product_id": 1}], 
-    "payment": "efectivo" 
+    "user_name": "ana123", 
+    "password": "constraseñ"
 }
 
-###
-GET http://localhost:3005/orders/49
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbjMiLCJwYXNzd29yZCI6IiQyYiQwNCQyaFpGRk1LRVhzenozRnd2OVJiNWouM21KcWJVSmtYUm95eUlueEdoYWxQZmpxbDNhR0NERyIsInJvbGUiOiJhZG1pbiJ9.aHb3b1MGtecTp6Ynhj0MaUIsRfmi_mPUR99ZwB_W3q0
-
-###
-PUT http://localhost:3005/orders/4
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJyb2xlIjoiY2xpZW50In0.g38kQGSW2xnfU6Oz4HfHyTajqlkPUoHZOOtgfVYVqPY
+### ---Admin loggin
+POST http://localhost:3005/login
 Content-Type: application/json
 
 {
-    "order_status": "confirmado"
+    "user_name": "admin3", 
+    "password": "admin"
 }
 
-###
 
+@clientToken = 
+@adminToken = 
+
+
+# -----Create new order-----
+
+### ---No autenthicated
 POST  http://localhost:3005/orders
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJyb2xlIjoiY2xpZW50In0.g38kQGSW2xnfU6Oz4HfHyTajqlkPUoHZOOtgfVYVqPY
 Content-Type: application/json
 
 {
     "payment": "efectivo",
     "products_ordered": [
         {"quantity": 2,
-        "product_id": 3}, 
+        "product_id": 2}, 
         {"quantity": 1,
         "product_id": 1}
         ] 
 }
 
+### ---Client role
+POST  http://localhost:3005/orders
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
 
-###
-DELETE http://localhost:3005/orders/4
+{
+    "payment": "efectivo",
+    "products_ordered": [
+        {"quantity": 2,
+        "product_id": 1}, 
+        {"quantity": 1,
+        "product_id": 2}
+        ] 
+}
+
+### ---Admin role
+POST  http://localhost:3005/orders
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "payment": "efectivo",
+    "products_ordered": [
+        {"quantity": 2,
+        "product_id": 2}, 
+        {"quantity": 1,
+        "product_id": 1}
+        ] 
+}
+
+# -----See all orders-----
+
+###---No autenthicated
+GET http://localhost:3005/orders
+
+### ---Client role
+GET http://localhost:3005/orders
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/orders
+Authorization: Bearer {{adminToken}}
+
+# -----See one order-----
+
+### ---No autenthicated
+GET http://localhost:3005/orders/2
+
+### ---Client role
+GET http://localhost:3005/orders/2
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/orders/1
+Authorization: Bearer {{adminToken}}
+
+# -----See own order-----
+
+### ---No autenthicated
+GET http://localhost:3005/orders/2
+
+### ---Client role
+GET http://localhost:3005/orders/1
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/orders/2
+Authorization: Bearer {{adminToken}}
+
+
+# -----Modify status of one order-----
+
+### ---No autenthicated
+PUT  http://localhost:3005/orders/1
+Content-Type: application/json
+
+{
+    "order_status": "confirmado"
+}
+
+### ---Client role
+PUT  http://localhost:3005/orders/1
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "order_status": "confirmado"
+}
+
+### ---Admin role
+PUT  http://localhost:3005/orders/1
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "order_status": "confirmado"
+}

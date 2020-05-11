@@ -1,31 +1,148 @@
-GET http://localhost:3005/products
 
-###
+# ----------Products request---------
 
+# ----------Users request---------
+
+### ---Client loggin
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "ana123", 
+    "password": "constraseñ"
+}
+
+### ---Admin loggin
+POST http://localhost:3005/login
+Content-Type: application/json
+
+{
+    "user_name": "admin3", 
+    "password": "admin"
+}
+
+
+@clientToken = 
+@adminToken = 
+
+
+# -----Create new product-----
+
+### ---No autenthicated
 POST  http://localhost:3005/products 
 Content-Type: application/json
 
-
 {
-    "product_code": "HamVegglggg",
+    "product_code": "HamVegg",
     "product_name": "Hamburguesa vegana",
     "price": "400"
 }
 
-###
-
-GET http://localhost:3005/products/HamVeggg
-
-###
-
-PUT http://localhost:3005/products/HamVeggg
+### ---Client role
+POST  http://localhost:3005/products 
+Authorization: Bearer {{clientToken}}
 Content-Type: application/json
 
 {
-    "product_name": "Hamburguesa vegane",
-    "price": "450"    
+    "product_code": "HamVegg",
+    "product_name": "Hamburguesa vegana",
+    "price": "400"
 }
 
-###
+### ---Admin role
+POST  http://localhost:3005/products 
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
 
-DELETE http://localhost:3005/products/HamVeggggg
+[
+    {
+    "product_code": "HamVegg",
+    "product_name": "Hamburguesa vegana",
+    "price": "400"
+},
+{
+    "product_code": "HamClas",
+    "product_name": "Hamburguesa clásica",
+    "price": "250"
+},
+{
+    "product_code": "HamQues",
+    "product_name": "Hamburguesa con queso",
+    "price": "250"
+}
+]
+
+
+# -----See all products-----
+
+###---No autenthicated
+GET http://localhost:3005/products
+
+
+###---Client role
+GET http://localhost:3005/products
+Authorization: Bearer {{clientToken}}
+
+###---Admin role
+GET http://localhost:3005/products
+Authorization: Bearer {{adminToken}}
+
+
+#-----See one product-----
+
+### ---No autenthicated
+GET http://localhost:3005/products/1
+
+### ---Client role
+GET http://localhost:3005/products/1
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/products/1
+Authorization: Bearer {{adminToken}}
+
+
+# -----Modify one product-----
+
+### ---No autenthicated
+POST  http://localhost:3005/products/1
+Content-Type: application/json
+
+{
+    "product_name": "Hamburguesa Vegana",
+    "price": "450"
+}
+
+### ---Client role
+PUT http://localhost:3005/products/1 
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "product_name": "Hamburguesa Vegana",
+    "price": "450"
+}
+
+### ---Admin role
+PUT  http://localhost:3005/products/2
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "product_code": "HamClas",
+    "product_name": "Hamburguesa Clásica",
+    "price": "300"
+}
+
+# -----Delete one product-----
+
+### ---No autenthicated
+DELETE  http://localhost:3005/products/2
+
+### ---Client role
+DELETE   http://localhost:3005/products/2
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+DELETE  http://localhost:3005/products/3
+Authorization: Bearer {{adminToken}}

@@ -13,6 +13,9 @@ function createToken(req, res) {
 
 function authenticateToken(req, res, next) {
   try {
+    if (!req.headers.authorization) {
+      throw new Error("No token found");
+    }
     const token = req.headers.authorization.split(" ")[1];
     const verifyToken = jwt.verify(token, process.env.JWT_SIGN);
     if (verifyToken) {
@@ -20,7 +23,6 @@ function authenticateToken(req, res, next) {
       next();
     }
   } catch (err) {
-    console.log(err);
     res.status(400).json("Not Allowed. Invalid token");
   }
 }
@@ -57,10 +59,10 @@ async function checkPermissions(req, res, next) {
       )
     ).flat();
 
-    if ((req.method == "POST" && permissions.Create_One) || isTheirOwnResource) allow = true;
-    else if ((req.method == "GET" && permissions.Read_One) || isTheirOwnResource) allow = true;
-    else if ((req.method == "PUT" && permissions.Write_One) || isTheirOwnResource) allow = true;
-    else if ((req.method == "DELETE" && permissions.Delete_one) || isTheirOwnResource) allow = true;
+    if ((req.method == "POST" && permissions.create_one) || isTheirOwnResource) allow = true;
+    else if ((req.method == "GET" && permissions.read_one) || isTheirOwnResource) allow = true;
+    else if ((req.method == "PUT" && permissions.write_one) || isTheirOwnResource) allow = true;
+    else if ((req.method == "DELETE" && permissions.delete_one) || isTheirOwnResource) allow = true;
 
     if (allow) next();
     else res.status(403).send({ error: "access denied" });

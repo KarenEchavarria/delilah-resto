@@ -1,9 +1,12 @@
-@clientToken = eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJyb2xlIjoiY2xpZW50In0.5y4Qp3AHt7J4uY3buJ8hw5PzcmzgNRy0DhE9k_6GJQ0
-@adminToken = eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJyb2xlIjoiYWRtaW4ifQ.dpk5e2gya_aPZkNASdhHAcBOAmTcsH3gPprF3L3Vo5o
+@clientToken = 
+@adminToken = 
+
+# ----------Create tables and permissions---------
+POST http://localhost:3005/createdb
 
 # ----------Register request---------
 
-# ---Register Client
+### ---Register Client
 POST http://localhost:3005/register
 Content-Type: application/json
 
@@ -93,11 +96,23 @@ POST  http://localhost:3005/products
 Authorization: Bearer {{adminToken}}
 Content-Type: application/json
 
+[
+    {
+    "product_code": "HamVegg",
+    "product_name": "Hamburguesa vegana",
+    "price": "400"
+},
 {
     "product_code": "HamClas",
     "product_name": "Hamburguesa clásica",
     "price": "250"
+},
+{
+    "product_code": "HamQues",
+    "product_name": "Hamburguesa con queso",
+    "price": "250"
 }
+]
 
 
 # -----See all products-----
@@ -171,8 +186,126 @@ DELETE   http://localhost:3005/products/2
 Authorization: Bearer {{clientToken}}
 
 ### ---Admin role
-DELETE  http://localhost:3005/products/2
+DELETE  http://localhost:3005/products/3
 Authorization: Bearer {{adminToken}}
+
+
+# ----------Orders request---------
+
+# -----Create new order-----
+
+### ---No autenthicated
+POST  http://localhost:3005/orders
+Content-Type: application/json
+
+{
+    "payment": "efectivo",
+    "products_ordered": [
+        {"quantity": 2,
+        "product_id": 2}, 
+        {"quantity": 1,
+        "product_id": 1}
+        ] 
+}
+
+### ---Client role
+POST  http://localhost:3005/orders
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "payment": "efectivo",
+    "products_ordered": [
+        {"quantity": 2,
+        "product_id": 1}, 
+        {"quantity": 1,
+        "product_id": 2}
+        ] 
+}
+
+### ---Admin role
+POST  http://localhost:3005/orders
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "payment": "efectivo",
+    "products_ordered": [
+        {"quantity": 2,
+        "product_id": 2}, 
+        {"quantity": 1,
+        "product_id": 1}
+        ] 
+}
+
+# -----See all orders-----
+
+###---No autenthicated
+GET http://localhost:3005/orders
+
+### ---Client role
+GET http://localhost:3005/orders
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/orders
+Authorization: Bearer {{adminToken}}
+
+# -----See one order-----
+
+### ---No autenthicated
+GET http://localhost:3005/orders/2
+
+### ---Client role
+GET http://localhost:3005/orders/2
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/orders/1
+Authorization: Bearer {{adminToken}}
+
+# -----See own order-----
+
+### ---No autenthicated
+GET http://localhost:3005/orders/2
+
+### ---Client role
+GET http://localhost:3005/orders/1
+Authorization: Bearer {{clientToken}}
+
+### ---Admin role
+GET http://localhost:3005/orders/2
+Authorization: Bearer {{adminToken}}
+
+
+# -----Modify status of one order-----
+
+### ---No autenthicated
+PUT  http://localhost:3005/orders/1
+Content-Type: application/json
+
+{
+    "order_status": "confirmado"
+}
+
+### ---Client role
+PUT  http://localhost:3005/orders/1
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "order_status": "confirmado"
+}
+
+### ---Admin role
+PUT  http://localhost:3005/orders/1
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "order_status": "confirmado"
+}
+
 
 
 # ----------Users request---------
@@ -347,121 +480,3 @@ Authorization: Bearer {{clientToken}}
 ### ---Admin role
 DELETE http://localhost:3005/users/2
 Authorization: Bearer {{adminToken}}
-
-
-
-# ----------Orders request---------
-
-# -----Create new order-----
-
-### ---No autenthicated
-POST  http://localhost:3005/orders
-Content-Type: application/json
-
-{
-    "payment": "efectivo",
-    "products_ordered": [
-        {"quantity": 2,
-        "product_id": 2}, 
-        {"quantity": 1,
-        "product_id": 1}
-        ] 
-}
-
-### ---Client role
-POST  http://localhost:3005/orders
-Authorization: Bearer {{clientToken}}
-Content-Type: application/json
-
-{
-    "payment": "efectivo",
-    "products_ordered": [
-        {"quantity": 2,
-        "product_id": 2}, 
-        {"quantity": 1,
-        "product_id": 1}
-        ] 
-}
-
-### ---Admin role
-POST  http://localhost:3005/orders
-Authorization: Bearer {{adminToken}}
-Content-Type: application/json
-
-{
-    "payment": "efectivo",
-    "products_ordered": [
-        {"quantity": 2,
-        "product_id": 2}, 
-        {"quantity": 1,
-        "product_id": 1}
-        ] 
-}
-
-# -----See all orders-----
-
-###---No autenthicated
-GET http://localhost:3005/orders
-
-### ---Client role
-GET http://localhost:3005/orders
-Authorization: Bearer {{clientToken}}
-
-### ---Admin role
-GET http://localhost:3005/orders
-Authorization: Bearer {{adminToken}}
-
-# -----See one order-----
-
-### ---No autenthicated
-GET http://localhost:3005/orders/2
-
-### ---Client role
-GET http://localhost:3005/orders/2
-Authorization: Bearer {{clientToken}}
-
-### ---Admin role
-GET http://localhost:3005/orders/1
-Authorization: Bearer {{adminToken}}
-
-# -----See own order-----
-
-### ---No autenthicated
-GET http://localhost:3005/orders/2
-
-### ---Client role
-GET http://localhost:3005/orders/1
-Authorization: Bearer {{clientToken}}
-
-### ---Admin role
-GET http://localhost:3005/orders/2
-Authorization: Bearer {{adminToken}}
-
-
-# -----Modify status of one order-----
-
-### ---No autenthicated
-PUT  http://localhost:3005/orders/1
-Content-Type: application/json
-
-{
-    "order_status": "confirmado"
-}
-
-### ---Client role
-PUT  http://localhost:3005/orders/1
-Authorization: Bearer {{clientToken}}
-Content-Type: application/json
-
-{
-    "order_status": "confirmado"
-}
-
-### ---Admin role
-PUT  http://localhost:3005/orders/1
-Authorization: Bearer {{adminToken}}
-Content-Type: application/json
-
-{
-    "order_status": "confirmado"
-}

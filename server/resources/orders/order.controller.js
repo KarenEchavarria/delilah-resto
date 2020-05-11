@@ -3,7 +3,7 @@ const { dbConnection } = require("../../util/database");
 async function getAllOrders(req, res) {
   try {
     const [orders] = await dbConnection.query(
-      "SELECT orders.*, GROUP_CONCAT(ordered_products.quantity, 'x', (SELECT products.product_code FROM products WHERE products.product_id IN (SELECT product_id FROM ordered_products ORDER BY product_id )) SEPARATOR ', ') AS ordered_products FROM ordered_products JOIN orders WHERE ordered_products.order_id = orders.order_id GROUP BY ordered_products.order_id"
+      "SELECT orders.*, GROUP_CONCAT(ordered_products.quantity, 'x', (SELECT products.product_code FROM products WHERE products.product_id = ordered_products.product_id GROUP BY ordered_products.order_id) SEPARATOR ', ') AS ordered_products FROM ordered_products JOIN orders WHERE ordered_products.order_id = orders.order_id GROUP BY ordered_products.order_id"
     );
 
     const [total] = await dbConnection.query(
@@ -21,15 +21,19 @@ async function getAllOrders(req, res) {
 
 async function addNewOrder(req, res) {
   try {
-    await dbConnection.query("INSERT INTO orders (payment, user_id) VALUES (:payment, :user_id)", {
-      replacements: { payment: req.body.payment, user_id: req.user.user_id },
-    });
-
-    const [orderId] = (await dbConnection.query("SELECT MAX(order_id) FROM orders")).flat();
+    const [order] = await dbConnection.query(
+      "INSERT INTO orders (payment, user_id) VALUES (:payment, :user_id)",
+      {
+        replacements: { payment: req.body.payment, user_id: req.user.user_id },
+      }
+    );
 
     for (const { quantity, product_id } of req.body.products_ordered) {
       await dbConnection.query(
-        `INSERT INTO ordered_products(order_id, quantity, product_id) VALUES (${orderId["MAX(order_id)"]}, ${quantity}, ${product_id})`
+        `INSERT INTO ordered_products(order_id, quantity, product_id) VALUES (:order_id, :quantity, :product)`,
+        {
+          replacements: { order_id: order, quantity: quantity, product: product_id },
+        }
       );
     }
 
@@ -44,7 +48,7 @@ async function getOrder(req, res, err) {
   const { order_id } = req.params;
   try {
     const [orders] = await dbConnection.query(
-      "SELECT orders.*, GROUP_CONCAT(ordered_products.quantity, 'x', (SELECT products.product_code FROM products WHERE products.product_id IN (SELECT product_id FROM ordered_products ORDER BY product_id )) SEPARATOR ', ') AS ordered_products FROM ordered_products JOIN orders WHERE ordered_products.order_id = orders.order_id AND ordered_products.order_id = :id GROUP BY ordered_products.order_id",
+      "SELECT orders.*, GROUP_CONCAT(ordered_products.quantity, 'x', (SELECT products.product_code FROM products WHERE products.product_id = ordered_products.product_id GROUP BY ordered_products.order_id) SEPARATOR ', ') AS ordered_products FROM ordered_products JOIN orders WHERE ordered_products.order_id = orders.order_id AND ordered_products.order_id = :id GROUP BY ordered_products.order_id",
       {
         replacements: { id: order_id },
       }
