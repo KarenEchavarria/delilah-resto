@@ -1,4 +1,3 @@
--- comands used to create database and tables
 
 CREATE DATABASE IF NOT EXISTS 20NPxAlTA5; 
 
@@ -48,7 +47,6 @@ CREATE TABLE orders(
         total FLOAT NOT NULL,
         payment ENUM ('efectivo', 'tarjeta') NOT NULL,
         user_id INT UNSIGNED ZEROFILL NOT NULL,
-        -- FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE ordered_products(

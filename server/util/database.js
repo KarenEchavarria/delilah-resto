@@ -1,6 +1,10 @@
+require("dotenv").config();
 const Sequelize = require("sequelize");
 
-const dbConnection = new Sequelize("20NPxAlTA5", "20NPxAlTA5", "LayNa5PQab", {
+const dbConnection = new Sequelize({
+  database: process.env.NAME_DB,
+  username: process.env.USER_DB,
+  password: process.env.PASSWORD_DB,
   dialect: "mysql",
   host: "remotemysql.com",
   port: "3306",

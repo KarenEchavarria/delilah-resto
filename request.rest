@@ -1,5 +1,5 @@
-@clientToken = eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiY2xpZW50In0.Lr9cnMouR2fEXlgLBo5J525yNN24vpOGdM1xhbtD-D0
-@adminToken = eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiYWRtaW4ifQ.R5NnBE1R1slS4BPI__Cz2cWLpIDMmqWO0xZ1-DJQvkQ
+@clientToken = eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJyb2xlIjoiY2xpZW50In0.5y4Qp3AHt7J4uY3buJ8hw5PzcmzgNRy0DhE9k_6GJQ0
+@adminToken = eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJyb2xlIjoiYWRtaW4ifQ.dpk5e2gya_aPZkNASdhHAcBOAmTcsH3gPprF3L3Vo5o
 
 # ----------Register request---------
 

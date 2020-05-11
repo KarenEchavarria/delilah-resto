@@ -1,4 +1,4 @@
-const sign = "mi_firma_para_delilah_1234567890!";
+require("dotenv").config();
 
 const jwt = require("jsonwebtoken");
 const { dbConnection } = require("./database");
@@ -6,7 +6,7 @@ const { dbConnection } = require("./database");
 function createToken(req, res) {
   const userCredentials = req.user;
 
-  const token = jwt.sign(JSON.stringify(userCredentials), sign);
+  const token = jwt.sign(JSON.stringify(userCredentials), process.env.JWT_SIGN);
 
   res.send({ accessToken: token });
 }
@@ -14,7 +14,7 @@ function createToken(req, res) {
 function authenticateToken(req, res, next) {
   try {
     const token = req.headers.authorization.split(" ")[1];
-    const verifyToken = jwt.verify(token, sign);
+    const verifyToken = jwt.verify(token, process.env.JWT_SIGN);
     if (verifyToken) {
       req.user = verifyToken;
       next();
