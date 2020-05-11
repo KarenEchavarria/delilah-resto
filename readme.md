@@ -23,19 +23,4 @@ Delilah Resó es un sistema de pedidos online para el restaurante.
 
     La aplicación corre en el puerto **http://localhost:3005/**.
 
-## ¿Cómo crear tienda estando en modo _desarrollo_?
-
-Para poder crear una tienda y poder probar el código de forma local debemos tener las siguientes cosas:
-
-- Variables del archivo .env.development completas.
-- Tener corriendo el proyecto haciendo uso de los comandos.
-
-```bash
-# yarn
-yarn && yarn dev
-
-# o si usas npm
-npm install && npm run dev
-```
-
 > Para mayor información sobre la aplicación puedes revisar la [**documentación**](https://app.swaggerhub.com/apis/karen-echavarria/delilah-resto/2.0.0).
