@@ -65,7 +65,7 @@ async function checkPermissions(req, res, next) {
     else if ((req.method == "DELETE" && permissions.delete_one) || isTheirOwnResource) allow = true;
 
     if (allow) next();
-    else res.status(403).send({ error: "access denied" });
+    else res.status(403).send({ error: "User has not permissions. Access denied" });
   } catch (err) {
     console.log(err);
     res.status(500).send();

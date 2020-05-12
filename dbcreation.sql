@@ -44,7 +44,6 @@ CREATE TABLE IF NOT EXISTS orders(
                 'cancelado'
             )
          NOT NULL,
-        total FLOAT NOT NULL,
         payment ENUM ('efectivo', 'tarjeta') NOT NULL,
         user_id INT UNSIGNED ZEROFILL NOT NULL
 );

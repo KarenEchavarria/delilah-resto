@@ -28,10 +28,10 @@ async function createTables(req, res, next) {
       "CREATE TABLE IF NOT EXISTS products(product_id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY,product_code VARCHAR(250) NOT NULL,product_name VARCHAR(250) NOT NULL,price DOUBLE NOT NULL,UNIQUE(product_code))"
     );
     const createRolesTable = await dbConnection.query(
-      "CREATE TABLE IF NOT EXISTS roles( role ENUM('admin','client') NOT NULL, resources_id VARCHAR(30) NOT NULL, Create_One BOOLEAN NOT NULL, Read_One BOOLEAN NOT NULL, Write_One BOOLEAN NOT NULL, Delete_One BOOLEAN NOT NULL, PRIMARY KEY(role, resources_id))"
+      "CREATE TABLE IF NOT EXISTS roles( role ENUM('admin','client') NOT NULL, resources_id VARCHAR(30) NOT NULL, create_one BOOLEAN NOT NULL, read_one BOOLEAN NOT NULL, write_one BOOLEAN NOT NULL, delete_one BOOLEAN NOT NULL, PRIMARY KEY(role, resources_id))"
     );
     const createOrdersTable = await dbConnection.query(
-      "CREATE TABLE IF NOT EXISTS orders( order_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, order_status ENUM ( 'nuevo', 'confirmado', 'preparando', 'enviando', 'entregado', 'cancelado' ) NOT NULL, total FLOAT NOT NULL, payment ENUM ('efectivo', 'tarjeta') NOT NULL, user_id INT UNSIGNED ZEROFILL NOT NULL)"
+      "CREATE TABLE IF NOT EXISTS orders( order_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, order_status ENUM ( 'nuevo', 'confirmado', 'preparando', 'enviando', 'entregado', 'cancelado' ) NOT NULL, payment ENUM ('efectivo', 'tarjeta') NOT NULL, user_id INT UNSIGNED ZEROFILL NOT NULL)"
     );
     const createOrderedProductsTable = await dbConnection.query(
       "CREATE TABLE IF NOT EXISTS ordered_products( ordered_products_id INT UNSIGNED ZEROFILL AUTO_INCREMENT NOT NULL PRIMARY KEY, order_id INT NOT NULL, quantity INT UNSIGNED ZEROFILL NOT NULL, product_id INT UNSIGNED NOT NULL )"
