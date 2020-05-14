@@ -39,8 +39,9 @@ async function checkPermissions(req, res, next) {
     isTheirOwnResource = req.user.user_id == param;
 
     if (path === "products" && req.method === "PUT") isTheirOwnResource = false;
-
-    if (path === "orders" && req.method !== "POST" && param) {
+    if (path === "orders" && (req.method === "DELETE" || req.method === "PUT"))
+      isTheirOwnResource = false;
+    if (path === "orders" && req.method === "GET" && param) {
       const [orderUserId] = (
         await dbConnection.query("SELECT user_id FROM orders WHERE order_id = :order_id", {
           replacements: { order_id: param },

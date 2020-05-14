@@ -1,6 +1,7 @@
 @clientToken = 
 @adminToken = 
 
+
 # ----------Create tables and permissions---------
 POST http://localhost:3005/createdb
 
@@ -306,6 +307,20 @@ Content-Type: application/json
     "order_status": "confirmado"
 }
 
+# -----Delete order-----
+
+### ---No autenthicated
+DELETE  http://localhost:3005/orders/1
+
+
+### ---Client role
+DELETE  http://localhost:3005/orders/1
+Authorization: Bearer {{clientToken}}
+
+
+### ---Admin role
+DELETE  http://localhost:3005/orders/1
+Authorization: Bearer {{adminToken}}
 
 
 # ----------Users request---------

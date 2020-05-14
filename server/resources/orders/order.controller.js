@@ -84,9 +84,21 @@ async function modifyOrder(req, res, err) {
     res.status(200).json("Order modified!");
   } catch (err) {
     console.log(err);
-    res.status(500);
-    res.json("An error has ocurred");
+    res.status(500).json("An error has ocurred");
   }
 }
 
-module.exports = { getAllOrders, addNewOrder, getOrder, modifyOrder };
+async function deleteOrder(req, res) {
+  try {
+    const { order_id } = req.params;
+    await dbConnection.query("DELETE FROM orders WHERE order_id = :id", {
+      replacements: { id: order_id },
+    });
+    res.status(201).json("Order deleted");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json("An error has ocurred");
+  }
+}
+
+module.exports = { getAllOrders, addNewOrder, getOrder, modifyOrder, deleteOrder };

@@ -44,7 +44,7 @@ async function createTables(req, res, next) {
 
 async function createPermissions(req, res) {
   try {
-    await dbConnection.query("INSERT INTO roles VALUES('admin', 'orders', 1, 1, 1, 0)");
+    await dbConnection.query("INSERT INTO roles VALUES('admin', 'orders', 1, 1, 1, 1)");
     await dbConnection.query("INSERT INTO roles VALUES('admin', 'products', 1, 1, 1, 1)");
     await dbConnection.query("INSERT INTO roles VALUES('admin', 'users', 1, 1, 1, 1)");
     await dbConnection.query("INSERT INTO roles VALUES('client', 'orders', 1, 0, 0, 0)");

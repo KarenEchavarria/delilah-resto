@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS ordered_products(
 );
 
 INSERT INTO roles
-VALUES('admin', 'orders', 1, 1, 1, 0);
+VALUES('admin', 'orders', 1, 1, 1, 1);
 INSERT INTO roles
 VALUES('admin', 'products', 1, 1, 1, 1);
 INSERT INTO roles
